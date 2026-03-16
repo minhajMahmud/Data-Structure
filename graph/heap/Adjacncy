@@ -1,0 +1,62 @@
+#include <stdio.h>
+
+#define MAX_VERTICES 100
+
+int adjMatrix[MAX_VERTICES][MAX_VERTICES];
+
+void initializeGraph(int vertices) {
+    for (int i = 0; i < vertices; ++i) {
+        for (int j = 0; j < vertices; ++j) {
+            adjMatrix[i][j] = 0;
+        }
+    }
+}
+
+void addEdge(int startVertex, int endVertex) {
+    adjMatrix[startVertex][endVertex] = 1;
+    adjMatrix[endVertex][startVertex] = 1;
+}
+
+void printGraph(int vertices) {
+    printf("\nAdjacency Matrix:\n");
+    for (int i = 0; i < vertices; ++i) {
+        for (int j = 0; j < vertices; ++j) {
+            printf("%d ", adjMatrix[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    int vertices, edges;
+
+    printf("Enter the number of vertices: ");
+    scanf("%d", &vertices);
+
+    if (vertices <= 0 || vertices > MAX_VERTICES) {
+        printf("Invalid number of vertices. Exiting.\n");
+        return 1;
+    }
+
+    initializeGraph(vertices);
+
+    printf("Enter the number of edges: ");
+    scanf("%d", &edges);
+
+    printf("Enter the edges (startVertex endVertex):\n");
+    for (int i = 0; i < edges; ++i) {
+        int startVertex, endVertex;
+        scanf("%d %d", &startVertex, &endVertex);
+
+        if (startVertex < 0 || startVertex >= vertices || endVertex < 0 || endVertex >= vertices) {
+            printf("Invalid edge. Please enter valid vertices.\n");
+            --i;
+        } else {
+            addEdge(startVertex, endVertex);
+        }
+    }
+
+    printGraph(vertices);
+
+    return 0;
+}
